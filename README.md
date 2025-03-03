@@ -11,3 +11,7 @@
 - KRS: 0000973401
 - NIP: 7262691919
 - REGON: 52234113900000
+
+### Credits
+
+Coauthored with @Vyvr
