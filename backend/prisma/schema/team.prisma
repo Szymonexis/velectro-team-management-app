@@ -1,0 +1,21 @@
+model Team {
+  id          String  @id @default(uuid())
+  name        String
+  address     String
+  voivodeship String?
+  range       Float // Assuming kilometers, with a float value for precision
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clients Client[] @relation("ClientTeam")
+
+  position Position? @relation("TeamPosition")
+
+  createdBy   User?   @relation("TeamCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdById String?
+
+  editedBy   User?   @relation("TeamEditedBy", fields: [editedById], references: [id], onDelete: SetNull)
+  editedById String?
+}

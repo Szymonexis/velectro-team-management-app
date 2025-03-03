@@ -1,0 +1,27 @@
+.dashboard {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-rows: 1fr 3rem;
+  overflow: hidden;
+
+  &__content {
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__divider {
+      flex: 1 1 auto;
+    }
+
+    &__logout {
+      align-self: flex-end;
+    }
+  }
+}

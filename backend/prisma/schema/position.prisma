@@ -1,0 +1,13 @@
+model Position {
+  id  String @id @default(uuid())
+  lat Float
+  lng Float
+
+  client   Client? @relation("ClientPosition", fields: [clientId], references: [id])
+  clientId String? @unique
+
+  team   Team?   @relation("TeamPosition", fields: [teamId], references: [id])
+  teamId String? @unique
+
+  @@unique([clientId, teamId])
+}

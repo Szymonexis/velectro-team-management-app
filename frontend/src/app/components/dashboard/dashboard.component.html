@@ -1,0 +1,36 @@
+@if (
+  {
+    dashboardItems: dashboardItems$ | async,
+  };
+  as viewData
+) {
+  <div class="dashboard">
+    <div class="dashboard__content">
+      <router-outlet></router-outlet>
+    </div>
+
+    <div class="dashboard__nav">
+      <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+      <span class="dashboard__nav__divider"></span>
+
+      <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+        @for (link of viewData?.dashboardItems; track $index) {
+          <a
+            mat-tab-link
+            #rla="routerLinkActive"
+            [active]="rla.isActive"
+            routerLinkActive
+            [routerLink]="link.path"
+            [relativeTo]="null"
+            [disabled]="link.disabled">
+            {{ link.label }}
+          </a>
+        }
+      </nav>
+      <span class="dashboard__nav__divider"></span>
+      <button mat-button color="warn" class="dashboard__nav__logout" (click)="logout()">
+        Wyloguj
+      </button>
+    </div>
+  </div>
+}

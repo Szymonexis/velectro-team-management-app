@@ -1,0 +1,8 @@
+# ignored folders
+node_modules
+
+# ignored files
+Dockerfile
+docker-compose.yml
+.env.dev.example
+README.md

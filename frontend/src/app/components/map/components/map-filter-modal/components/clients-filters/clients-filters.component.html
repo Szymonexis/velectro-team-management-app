@@ -1,0 +1,61 @@
+<form class="clients-filters-form" [formGroup]="formGroup">
+  <!-- name form field -->
+  <mat-form-field>
+    <mat-label for="name">Nazwa</mat-label>
+    <input matInput id="name" placeholder="Wprowadź nazwę" formControlName="name" />
+  </mat-form-field>
+
+  <mat-divider class="divider"></mat-divider>
+
+  <!-- address form field -->
+  <mat-form-field>
+    <mat-label for="address">Adres</mat-label>
+    <input matInput id="address" placeholder="Wprowadź adres" formControlName="address" />
+  </mat-form-field>
+
+  <!-- voivodeship form field -->
+  <mat-form-field>
+    <mat-label for="voivodeship">Województwo</mat-label>
+    <input
+      matInput
+      id="voivodeship"
+      placeholder="Wprowadź województwo"
+      formControlName="voivodeship" />
+  </mat-form-field>
+
+  <mat-divider class="divider"></mat-divider>
+
+  <!-- invoiceAcceptanceDate form field -->
+  <mat-form-field>
+    <mat-label for="invoiceAcceptanceDate">Data akceptacji faktury</mat-label>
+    <input
+      matInput
+      [matDatepicker]="acceptancePicker"
+      id="invoiceAcceptanceDate"
+      formControlName="invoiceAcceptanceDate" />
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="acceptancePicker"></mat-datepicker-toggle>
+    <mat-datepicker #acceptancePicker></mat-datepicker>
+  </mat-form-field>
+
+  <!-- invoiceEndDate form field -->
+  <mat-form-field>
+    <mat-label for="invoiceEndDate">Data końca faktury</mat-label>
+    <input
+      matInput
+      [matDatepicker]="endPicker"
+      id="invoiceEndDate"
+      formControlName="invoiceEndDate" />
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+    <mat-datepicker #endPicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-divider class="divider"></mat-divider>
+
+  <!-- team form field -->
+  <mat-form-field>
+    <mat-label for="team">Przypisany zespół</mat-label>
+    <input matInput id="team" placeholder="Podaj przypisany zespół" formControlName="team" />
+  </mat-form-field>
+</form>

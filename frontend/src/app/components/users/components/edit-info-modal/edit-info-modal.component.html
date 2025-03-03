@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>Edytuj informacje i dostępy</h2>
+<form [formGroup]="formGroup" class="edit-info-form">
+  <mat-dialog-content class="edit-info-form__dialog-content">
+    <!-- Name and Surname Field -->
+    <mat-form-field appearance="outline">
+      <mat-label for="name">Imię i nazwisko</mat-label>
+      <input
+        matInput
+        id="name"
+        placeholder="Wprowadź imię i nazwisko"
+        formControlName="name"
+        required />
+      <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+        Imię i nazwisko są wymagane
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Boolean Fields with Radio Buttons -->
+    <div class="checkbox-field">
+      <mat-label>Administrator</mat-label>
+      <mat-radio-group formControlName="isAdmin" aria-labelledby="isAdmin">
+        <mat-radio-button [value]="true">Tak</mat-radio-button>
+        <mat-radio-button [value]="false">Nie</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="checkbox-field">
+      <mat-label>Może tworzyć</mat-label>
+      <mat-radio-group formControlName="canCreate" aria-labelledby="canCreate">
+        <mat-radio-button [value]="true">Tak</mat-radio-button>
+        <mat-radio-button [value]="false">Nie</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="checkbox-field">
+      <mat-label>Może usuwać</mat-label>
+      <mat-radio-group formControlName="canDelete" aria-labelledby="canDelete">
+        <mat-radio-button [value]="true">Tak</mat-radio-button>
+        <mat-radio-button [value]="false">Nie</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="checkbox-field">
+      <mat-label>Może modyfikować</mat-label>
+      <mat-radio-group formControlName="canUpdate" aria-labelledby="canUpdate">
+        <mat-radio-button [value]="true">Tak</mat-radio-button>
+        <mat-radio-button [value]="false">Nie</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </mat-dialog-content>
+  <!-- Form Actions -->
+  <mat-dialog-actions align="end">
+    <button mat-button color="warn" (click)="onCancel()">Anuluj</button>
+    <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="formGroup.invalid">
+      Zatwierdź
+    </button>
+  </mat-dialog-actions>
+</form>

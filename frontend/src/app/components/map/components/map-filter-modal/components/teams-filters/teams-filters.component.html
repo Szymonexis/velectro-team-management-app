@@ -1,0 +1,51 @@
+<form class="teams-filters-form" [formGroup]="formGroup">
+  <!-- name form field -->
+  <mat-form-field>
+    <mat-label for="name">Nazwa</mat-label>
+    <input matInput id="name" placeholder="Wprowadź nazwę" formControlName="name" />
+  </mat-form-field>
+
+  <mat-divider class="divider"></mat-divider>
+
+  <!-- address form field -->
+  <mat-form-field>
+    <mat-label for="address">Adres</mat-label>
+    <input matInput id="address" placeholder="Wprowadź adres" formControlName="address" />
+  </mat-form-field>
+
+  <!-- voivodeship form field -->
+  <mat-form-field>
+    <mat-label for="voivodeship">Województwo</mat-label>
+    <input
+      matInput
+      id="voivodeship"
+      placeholder="Wprowadź województwo"
+      formControlName="voivodeship" />
+  </mat-form-field>
+
+  <mat-divider class="divider"></mat-divider>
+
+  <!-- RangeFrom Field -->
+  <mat-form-field appearance="outline">
+    <mat-label for="rangeFrom">Zasięg od</mat-label>
+    <input
+      matInput
+      id="rangeFrom"
+      type="number"
+      placeholder="Wprowadź zasięg"
+      formControlName="rangeFrom" />
+  </mat-form-field>
+
+  <!-- RangeTo Field -->
+  <mat-form-field appearance="outline">
+    <mat-label for="rangeTo">Zasięg do</mat-label>
+    <input
+      matInput
+      id="rangeTo"
+      type="number"
+      placeholder="Wprowadź zasięg"
+      formControlName="rangeTo" />
+  </mat-form-field>
+
+  <mat-divider class="divider"></mat-divider>
+</form>

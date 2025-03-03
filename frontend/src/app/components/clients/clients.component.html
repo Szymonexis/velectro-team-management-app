@@ -1,0 +1,153 @@
+<ng-container
+  *ngIf="{
+    data: data$ | async,
+    isLoading: isLoading$ | async,
+    error: error$ | async,
+    paginationData: paginationData$ | async,
+    parsedPaginationData: parsedPaginationData$ | async,
+    minimalTeams: minimalTeams$ | async,
+    userPermissions: userPermissions$ | async,
+  } as viewData">
+  <div class="clients">
+    <div class="clients__table">
+      <div class="clients__table__search-container">
+        <!-- Search field -->
+        <mat-form-field
+          class="clients__table__search-container__filter-input"
+          [subscriptSizing]="'dynamic'">
+          <mat-label>Szukaj</mat-label>
+          <input matInput placeholder="Jan Kowalski" [(ngModel)]="searchValue" />
+          @if (searchValue) {
+            <button matSuffix mat-icon-button (click)="searchValue = ''">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+
+        <!-- Search button -->
+        <button mat-flat-button (click)="submitSearch()">Szukaj</button>
+
+        <!-- Create button-->
+        <button
+          mat-fab
+          extended
+          class="clients__table__search-container__create-button"
+          (click)="onCreate()"
+          [disabled]="!viewData?.userPermissions?.canCreate">
+          <mat-icon> add </mat-icon>
+          Stwórz klienta
+        </button>
+      </div>
+
+      <!-- Table -->
+      <ng-container *ngIf="viewData?.isLoading; else dataTable">
+        <div class="clients__data-loader">
+          <mat-spinner></mat-spinner>
+        </div>
+      </ng-container>
+      <ng-template #dataTable>
+        @if (!viewData?.data?.clients?.length) {
+          <div class="clients__no-data">
+            <p>Brak danych</p>
+          </div>
+        } @else {
+          <table
+            mat-table
+            [dataSource]="viewData?.data?.clients || []"
+            matSort
+            (matSortChange)="submitSort($event)"
+            matSortActive="{{ currentSort.active }}"
+            [matSortDirection]="currentSort.direction"
+            class="clients__table__content">
+            @for (column of displayedColumns; track $index) {
+              <ng-container [matColumnDef]="column.columnDef">
+                @if (
+                  viewData?.data?.sortFields?.includes(column.columnDef) ||
+                  column.columnDef === 'showOnMap'
+                ) {
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="clients__table__content__header">
+                    {{ column.columnName }}
+                  </th>
+                } @else {
+                  <th mat-header-cell *matHeaderCellDef class="clients__table__content__header">
+                    {{ column.columnName }}
+                  </th>
+                }
+                <td mat-cell *matCellDef="let element">
+                  <!-- Conditional rendering based on columnType -->
+                  <ng-container [ngSwitch]="column.columnType">
+                    <!-- Render checkbox for boolean values -->
+                    <ng-container *ngSwitchCase="'boolean'">
+                      <div class="clients__table__content__action-buttons">
+                        <mat-checkbox
+                          disabled="true"
+                          [checked]="element[column.columnDef]"
+                          [disabled]="true"></mat-checkbox>
+                      </div>
+                    </ng-container>
+                    <!-- Render formatted date for date values -->
+                    <ng-container *ngSwitchCase="'date'">
+                      {{ element[column.columnDef] | date: date_format }}
+                    </ng-container>
+                    <!-- Render Team name from id -->
+                    <ng-container *ngSwitchCase="'fromData'">
+                      {{ getTeamNameById(element[column.columnDef]) }}
+                    </ng-container>
+                    <!-- Action buttons -->
+                    <ng-container *ngSwitchCase="'action'">
+                      <div class="clients__table__content__action-buttons">
+                        <button
+                          mat-raised-button
+                          color="primary"
+                          class="clients__table__content__action-buttons--edit"
+                          (click)="onEdit(element)"
+                          [disabled]="!viewData?.userPermissions?.canUpdate">
+                          <mat-icon>edit_square</mat-icon> Edytuj klienta
+                        </button>
+                        <button
+                          mat-raised-button
+                          color="warn"
+                          class="clients__table__content__action-buttons--delete"
+                          (click)="onDelete(element.id)"
+                          [disabled]="!viewData?.userPermissions?.canDelete">
+                          <mat-icon>delete</mat-icon> Usuń
+                        </button>
+                      </div>
+                    </ng-container>
+                    <!-- Render plain text for string and other values -->
+                    <ng-container *ngSwitchDefault>
+                      <div class="ellipsis">
+                        <div class="ellipsis__text">
+                          {{ element[column.columnDef] }}
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </td>
+              </ng-container>
+            }
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsIds"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsIds"></tr>
+          </table>
+        }
+      </ng-template>
+    </div>
+    <!-- Paginator -->
+    <div class="clients__paginator">
+      <mat-paginator
+        #paginator
+        (page)="handlePageEvent($event)"
+        [length]="viewData?.data?.totalCount || 0"
+        [pageSize]="currentPageSize || 0"
+        [showFirstLastButtons]="true"
+        [hidePageSize]="false"
+        [pageSizeOptions]="[10, 25, 50, 100]"
+        [pageIndex]="viewData?.data?.pageIndex || 0" />
+    </div>
+  </div>
+</ng-container>

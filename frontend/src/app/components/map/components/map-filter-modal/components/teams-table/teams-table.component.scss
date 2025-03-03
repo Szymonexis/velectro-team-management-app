@@ -1,0 +1,12 @@
+table {
+  overflow: auto;
+  width: max-content;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  white-space: nowrap;
+  padding: 8px;
+  text-align: center;
+}

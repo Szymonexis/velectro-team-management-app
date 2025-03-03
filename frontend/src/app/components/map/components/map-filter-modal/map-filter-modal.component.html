@@ -1,0 +1,51 @@
+<ng-container
+  *ngIf="{
+    clients: filteredClients$ | async,
+    teams: filteredTeams$ | async,
+  } as viewData">
+  <h2 mat-dialog-title>Filtruj</h2>
+
+  <mat-dialog-content class="map-filter__dialog-content">
+    <div class="search-panel">
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel
+          (opened)="togglePanelState(filterPanelsEnum.Clients)"
+          (closed)="togglePanelState(filterPanelsEnum.Clients)">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Klienci </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <app-clients-filters (clientsFiltersChange)="onClientsFiltersChange($event)" />
+        </mat-expansion-panel>
+
+        <mat-expansion-panel
+          (opened)="togglePanelState(filterPanelsEnum.Teams)"
+          (closed)="togglePanelState(filterPanelsEnum.Teams)">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Zespoły </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <app-teams-filters (teamsFiltersChange)="onTeamsFiltersChange($event)" />
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <mat-divider
+      vertical="true"
+      [ngStyle]="{ 'margin-left': '10px', 'margin-right': '10px' }"></mat-divider>
+
+    <div class="data-panel">
+      @if (clientsPanelOpenState()) {
+        <app-clients-table [clients]="viewData?.clients" />
+      } @else if (teamsPanelOpenState()) {
+        <app-teams-table [teams]="viewData?.teams" />
+      } @else {
+        <p>Wybierz kategorię</p>
+      }
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button color="warn" (click)="onClose()">Zamknij</button>
+  </mat-dialog-actions>
+</ng-container>

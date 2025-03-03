@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>Stwórz zespół</h2>
+<form [formGroup]="formGroup" class="create-form">
+  <mat-dialog-content class="create-form__dialog-content">
+    <!-- Name Field -->
+    <mat-form-field appearance="outline">
+      <mat-label for="name">Nazwa</mat-label>
+      <input matInput id="name" placeholder="Wprowadź nazwę" formControlName="name" required />
+      <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+        Nazwa jest wymagana
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Address Field -->
+    <mat-form-field appearance="outline">
+      <mat-label for="address">Adres</mat-label>
+      <input
+        matInput
+        id="address"
+        placeholder="Wprowadź adres"
+        formControlName="address"
+        required />
+      <mat-error *ngIf="formGroup.get('address')?.hasError('required')">
+        Adres jest wymagany
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Range Field -->
+    <mat-form-field appearance="outline">
+      <mat-label for="range">Zasięg</mat-label>
+      <input
+        matInput
+        id="range"
+        type="number"
+        placeholder="Wprowadź zasięg"
+        formControlName="range"
+        required />
+      <mat-error *ngIf="formGroup.get('range')?.hasError('required')">
+        Zasięg jest wymagany
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Description Field -->
+    <mat-form-field appearance="outline">
+      <mat-label for="description">Opis</mat-label>
+      <textarea
+        matInput
+        id="description"
+        placeholder="Wprowadź opis"
+        formControlName="description"
+        cdkAutosizeMinRows="3"
+        cdkAutosizeMaxRows="10"
+        cdkTextareaAutosize>
+      </textarea>
+
+      <mat-hint align="end">
+        {{ descriptionFormControlValue?.length ?? 0 }} / {{ DESCRIPTION_MAX_LENGTH }}
+      </mat-hint>
+    </mat-form-field>
+  </mat-dialog-content>
+  <!-- Form Actions -->
+  <mat-dialog-actions align="end">
+    <button mat-button color="warn" (click)="onCancel()">Anuluj</button>
+    <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="formGroup.invalid">
+      Stwórz
+    </button>
+  </mat-dialog-actions>
+</form>

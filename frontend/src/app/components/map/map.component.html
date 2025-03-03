@@ -1,0 +1,43 @@
+<ng-container
+  *ngIf="{
+    markers: markers$ | async,
+  } as viewData">
+  <button mat-flat-button class="search-button" (click)="onOpenFilters()">Wyszukaj</button>
+  <google-map width="100%" height="100%" [options]="options">
+    @for (marker of viewData?.markers; track $index) {
+      <map-marker
+        #mapMarker="mapMarker"
+        [position]="marker.position"
+        [icon]="marker.markerIconUrl"
+        (mapClick)="openInfoWindow(mapMarker, infoWindow)">
+      </map-marker>
+      @if (marker.circleOptions) {
+        <map-circle [options]="marker.circleOptions"> </map-circle>
+      }
+
+      <map-info-window #infoWindow="mapInfoWindow">
+        <div class="info-window">
+          <h2>{{ marker.name }}</h2>
+          @if (marker.team) {
+            <div>
+              <p>Zasięg: {{ marker.team.range }}km</p>
+              <p>Adres: {{ marker.team.address }}</p>
+              <p>Województwo:{{ marker.team.voivodeship }}</p>
+            </div>
+          } @else {
+            <div>
+              <p>Przypisany zespół: {{ marker.client?.team ? marker.client?.team : 'Brak' }}</p>
+              <p>
+                Data akceptacji faktury:
+                {{ marker.client?.invoiceAcceptanceDate | date: date_format }}
+              </p>
+              <p>Data końca faktury: {{ marker.client?.invoiceEndDate | date: date_format }}</p>
+              <p>Adres: {{ marker.client?.address }}</p>
+              <p>Województwo: {{ marker.client?.voivodeship }}</p>
+            </div>
+          }
+        </div>
+      </map-info-window>
+    }
+  </google-map>
+</ng-container>

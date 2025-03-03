@@ -1,0 +1,40 @@
+@if (clients?.length === 0) {
+  <p>Brak danych</p>
+} @else {
+  <table mat-table [dataSource]="clients || []">
+    @for (column of displayedColumns; track $index) {
+      <ng-container [matColumnDef]="column.columnDef">
+        <th mat-header-cell *matHeaderCellDef class="clients__table__header">
+          {{ column.columnName }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <!-- Conditional rendering based on columnType -->
+          <ng-container [ngSwitch]="column.columnType">
+            <!-- Render checkbox for boolean values -->
+            <ng-container *ngSwitchCase="'boolean'">
+              <div class="clients__table__checkbox">
+                <mat-checkbox
+                  [checked]="element[column.columnDef]"
+                  (change)="toggleShowOnMap(element.id)"></mat-checkbox>
+              </div>
+            </ng-container>
+            <!-- Render formatted date for date values -->
+            <ng-container *ngSwitchCase="'date'">
+              {{ element[column.columnDef] | date: date_format }}
+            </ng-container>
+            <!-- Render plain text for string and other values -->
+            <ng-container *ngSwitchDefault>
+              <div class="ellipsis">
+                <div class="ellipsis__text">
+                  {{ element[column.columnDef] }}
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+    }
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsIds"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsIds"></tr>
+  </table>
+}

@@ -1,0 +1,29 @@
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  password     String
+  isSuperAdmin Boolean  @default(false)
+  isAdmin      Boolean  @default(false)
+  canUpdate    Boolean  @default(false)
+  canCreate    Boolean  @default(false)
+  canDelete    Boolean  @default(false)
+  canRead      Boolean  @default(true)
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  createdById String?
+  editedById  String?
+
+  createdBy     User?  @relation("UserCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdByUser User[] @relation("UserCreatedBy")
+
+  editedBy     User?  @relation("UserEditedBy", fields: [editedById], references: [id], onDelete: SetNull)
+  editedByUser User[] @relation("UserEditedBy")
+
+  createdClients Client[] @relation("ClientCreatedBy")
+  editedClients  Client[] @relation("ClientEditedBy")
+
+  createdTeams Team[] @relation("TeamCreatedBy")
+  editedTeams  Team[] @relation("TeamEditedBy")
+}

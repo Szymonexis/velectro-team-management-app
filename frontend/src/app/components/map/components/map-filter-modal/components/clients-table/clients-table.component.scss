@@ -1,0 +1,21 @@
+.clients__table__header {
+  text-align: center;
+}
+
+.clients__table__checkbox {
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  overflow: auto;
+  width: max-content;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  white-space: nowrap;
+  padding: 8px;
+  text-align: center;
+}

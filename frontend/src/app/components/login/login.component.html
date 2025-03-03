@@ -1,0 +1,55 @@
+<ng-container
+  *ngIf="{
+    authState: authState$ | async,
+  } as viewData">
+  <div class="login">
+    <h3 class="login__title">Zaloguj się</h3>
+
+    <form class="login__form" [formGroup]="loginFormGroup">
+      <mat-form-field class="login__form__field">
+        <mat-label>Nazwa użytkownika</mat-label>
+
+        <input matInput placeholder="Nazwa użytkownika" formControlName="username" required />
+
+        @if (loginFormGroup.get('username')?.hasError('required')) {
+          <mat-error> Nazwa użytkownika jest <strong>wymagana</strong> </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="login__form__field">
+        <mat-label>Hasło</mat-label>
+
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          placeholder="Hasło"
+          formControlName="password"
+          required />
+
+        <mat-icon matSuffix (click)="onToggleHidePassword()">
+          @if (hidePassword) {
+            visibility_off
+          } @else {
+            visibility
+          }
+        </mat-icon>
+
+        @if (loginFormGroup.get('password')?.hasError('required')) {
+          <mat-error> Hasło jest <strong>wymagane</strong> </mat-error>
+        }
+      </mat-form-field>
+    </form>
+
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="loginFormGroup.invalid || viewData?.authState?.isLoading">
+      @if (viewData?.authState?.isLoading) {
+        <mat-spinner diameter="20"></mat-spinner>
+      } @else {
+        Zaloguj
+      }
+    </button>
+  </div>
+</ng-container>

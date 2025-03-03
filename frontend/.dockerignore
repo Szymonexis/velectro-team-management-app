@@ -1,0 +1,9 @@
+# ignored folders
+node_modules
+.vscode
+
+# ignored files
+.editorconfig
+.gitignore
+Dockerfile
+README.md

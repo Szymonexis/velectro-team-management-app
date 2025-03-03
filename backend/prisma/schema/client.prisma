@@ -1,0 +1,25 @@
+model Client {
+  id                    String    @id @default(uuid())
+  name                  String
+  address               String
+  voivodeship           String?
+  invoiceAcceptanceDate DateTime? // Optional date for accepting the invoice
+  invoiceEndDate        DateTime? // Coupled with invoiceAcceptanceDate
+  invoiceIsDone         Boolean   @default(false)
+  description           String?
+  showOnMap             Boolean   @default(true) // Switch for showing on the map globally
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  position Position? @relation("ClientPosition")
+
+  team   Team?   @relation("ClientTeam", fields: [teamId], references: [id], onDelete: SetNull)
+  teamId String?
+
+  createdBy   User?   @relation("ClientCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdById String?
+
+  editedBy   User?   @relation("ClientEditedBy", fields: [editedById], references: [id], onDelete: SetNull)
+  editedById String?
+}
